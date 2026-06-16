@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #10110f;
+  --foreground: #f4f4f0;
+}
+
+.light {
+  --background: #f7f6f1;
+  --foreground: #181915;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: #6ee7b7;
+  color: #111111;
+}
+
+.light .bg-zinc-950,
+.light .bg-zinc-950\/90,
+.light .bg-zinc-950\/95 {
+  background-color: #f7f6f1;
+}
+
+.light .bg-zinc-900,
+.light .bg-zinc-900\/40,
+.light .bg-zinc-900\/50,
+.light .bg-zinc-900\/60,
+.light .bg-zinc-900\/70 {
+  background-color: #ecebe4;
+}
+
+.light .border-zinc-800,
+.light .border-zinc-700 {
+  border-color: #d6d2c7;
+}
+
+.light .text-zinc-50,
+.light .text-zinc-100,
+.light .text-zinc-200 {
+  color: #181915;
+}
+
+.light .text-zinc-300,
+.light .text-zinc-400,
+.light .text-zinc-500 {
+  color: #5f6258;
+}
+
+.light input,
+.light textarea,
+.light select {
+  color: #181915;
+}
