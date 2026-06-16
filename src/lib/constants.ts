@@ -92,3 +92,110 @@ export const TIMEZONES = [
 ] as const;
 
 export type AppTimezone = (typeof TIMEZONES)[number];
+
+export const GOAL_CATEGORIES = [
+  "financial",
+  "academic",
+  "project",
+  "health",
+  "personal",
+  "career",
+  "content",
+  "general",
+] as const;
+
+export type GoalCategory = (typeof GOAL_CATEGORIES)[number];
+
+export const GOAL_STATUSES = [
+  "not_started",
+  "active",
+  "paused",
+  "completed",
+  "cancelled",
+] as const;
+
+export type GoalStatus = (typeof GOAL_STATUSES)[number];
+
+export const PROJECT_STATUSES = [
+  "planned",
+  "active",
+  "paused",
+  "blocked",
+  "completed",
+  "archived",
+] as const;
+
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
+
+export const MODULE_STATUSES = ["upcoming", "active", "completed", "dropped"] as const;
+
+export type ModuleStatus = (typeof MODULE_STATUSES)[number];
+
+export const LECTURE_ATTENDANCE_STATUSES = [
+  "scheduled",
+  "attended",
+  "absent",
+  "cancelled",
+] as const;
+
+export type LectureAttendanceStatus = (typeof LECTURE_ATTENDANCE_STATUSES)[number];
+
+export const ASSIGNMENT_STATUSES = [
+  "not_started",
+  "in_progress",
+  "submitted",
+  "graded",
+  "cancelled",
+] as const;
+
+export type AssignmentStatus = (typeof ASSIGNMENT_STATUSES)[number];
+
+export const GOAL_CATEGORY_LABELS: Record<GoalCategory, string> = {
+  financial: "Financial",
+  academic: "Academic",
+  project: "Project",
+  health: "Health",
+  personal: "Personal",
+  career: "Career",
+  content: "Content",
+  general: "General",
+};
+
+export const GOAL_STATUS_LABELS: Record<GoalStatus, string> = {
+  not_started: "Not started",
+  active: "Active",
+  paused: "Paused",
+  completed: "Completed",
+  cancelled: "Cancelled",
+};
+
+export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
+  planned: "Planned",
+  active: "Active",
+  paused: "Paused",
+  blocked: "Blocked",
+  completed: "Completed",
+  archived: "Archived",
+};
+
+export const MODULE_STATUS_LABELS: Record<ModuleStatus, string> = {
+  upcoming: "Upcoming",
+  active: "Active",
+  completed: "Completed",
+  dropped: "Dropped",
+};
+
+export const LECTURE_ATTENDANCE_STATUS_LABELS: Record<LectureAttendanceStatus, string> = {
+  scheduled: "Scheduled",
+  attended: "Attended",
+  absent: "Absent",
+  cancelled: "Cancelled",
+};
+
+export const ASSIGNMENT_STATUS_LABELS: Record<AssignmentStatus, string> = {
+  not_started: "Not started",
+  in_progress: "In progress",
+  submitted: "Submitted",
+  graded: "Graded",
+  cancelled: "Cancelled",
+};

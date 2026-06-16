@@ -4,7 +4,15 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "@/lib/env";
 import type { Database } from "@/types/database";
 
-const protectedRoutes = ["/dashboard", "/tasks", "/notes", "/settings"];
+const protectedRoutes = [
+  "/dashboard",
+  "/tasks",
+  "/notes",
+  "/goals",
+  "/projects",
+  "/university",
+  "/settings",
+];
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });

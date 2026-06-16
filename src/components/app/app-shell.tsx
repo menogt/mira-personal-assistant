@@ -27,6 +27,21 @@ const navigation: Array<{
     iconName: "notes",
   },
   {
+    href: "/goals",
+    label: "Goals",
+    iconName: "goals",
+  },
+  {
+    href: "/projects",
+    label: "Projects",
+    iconName: "projects",
+  },
+  {
+    href: "/university",
+    label: "University",
+    iconName: "university",
+  },
+  {
     href: "/settings",
     label: "Settings",
     iconName: "settings",

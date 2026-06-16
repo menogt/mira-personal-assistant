@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  FolderKanban,
+  GraduationCap,
   LayoutDashboard,
   ListTodo,
   Settings,
   StickyNote,
+  Target,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -15,6 +18,9 @@ const iconMap = {
   dashboard: LayoutDashboard,
   tasks: ListTodo,
   notes: StickyNote,
+  goals: Target,
+  projects: FolderKanban,
+  university: GraduationCap,
   settings: Settings,
 } as const;
 
