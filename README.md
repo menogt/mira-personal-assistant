@@ -29,12 +29,11 @@ Set these variables in `.env.local`:
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-MIRA_ALLOWED_EMAIL=your-private-login-email@example.com
-ANTHROPIC_API_KEY=your-anthropic-api-key
-ANTHROPIC_MODEL=claude-sonnet-4-6
+XAI_API_KEY=your-xai-api-key
+XAI_MODEL=grok-3-mini
 ```
 
-`MIRA_ALLOWED_EMAIL` is the one email permitted to use the deployment. Create that one user in Supabase Auth with the Email provider enabled. `ANTHROPIC_API_KEY` is read only on the server by the Assistant API route. Do not commit `.env.local`, real API keys, or Supabase service-role keys. The provider module can be replaced later without changing the chat UI or database tools.
+`XAI_API_KEY` is read only on the server by the Assistant API route. Do not commit `.env.local`, real API keys, or Supabase service-role keys. The provider module keeps the chat UI and database tools independent from the provider implementation.
 
 Run the development server:
 
@@ -57,7 +56,7 @@ The migrations create the profile, tasks, goals, projects, project milestones, m
 
 ## Assistant configuration
 
-The Assistant route is `POST /api/assistant/chat`. It accepts a short conversation history and returns a final response plus the tools it actually called. Claude is accessed through `src/services/ai/provider.ts`; database execution lives in `src/features/assistant/tools.ts`. If `ANTHROPIC_API_KEY` is absent, the UI reports a configuration error rather than returning fabricated content.
+The Assistant route is `POST /api/assistant/chat`. It accepts a short conversation history and returns a final response plus the tools it actually called. Grok is accessed through `src/services/ai/provider.ts`; database execution lives in `src/features/assistant/tools.ts`. If `XAI_API_KEY` is absent, the UI reports a configuration error rather than returning fabricated content.
 
 ## Validation
 
@@ -69,7 +68,7 @@ npm run build
 
 ## Deployment
 
-Deploy the repository as a Next.js project on Vercel. Add all five environment variables listed above to the relevant Production/Preview environments, apply the Supabase migrations, and deploy with:
+Deploy the repository as a Next.js project on Vercel. Add the four environment variables listed above to the relevant Production/Preview environments, apply the Supabase migrations, and deploy with:
 
 ```bash
 npm run build
@@ -77,4 +76,4 @@ npm run build
 
 ## Assumptions
 
-The supplied Supabase project is the source of truth for authentication and persistence. This remains a single-user application with owner-scoped `user_id` columns rather than an application-managed users table. Claude is the default provider for Part 4; `ANTHROPIC_MODEL` permits a model change without touching application code. Voice, calendar, GitHub, notifications, reminders, multi-user access, and provider-selection UI remain intentionally out of scope.
+The supplied Supabase project is the source of truth for authentication and persistence. This remains a single-user application with owner-scoped `user_id` columns rather than an application-managed users table. Grok is the assistant provider; `XAI_MODEL` permits a model change without touching application code. Voice, calendar, GitHub, notifications, reminders, multi-user access, and provider-selection UI remain intentionally out of scope.

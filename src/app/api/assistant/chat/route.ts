@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "I stopped after several database steps to avoid an endless loop. The completed tool actions are shown below.", toolEvents });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Assistant request failed.";
-    const status = message.includes("ANTHROPIC_API_KEY") ? 503 : 500;
+    const status = message.includes("XAI_API_KEY") ? 503 : 500;
     return NextResponse.json({ error: message }, { status });
   }
 }
