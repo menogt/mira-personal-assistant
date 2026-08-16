@@ -6,6 +6,7 @@ import { TaskList } from "@/features/tasks/task-list";
 import { filterAndSortTasks, getTasksForUser } from "@/features/tasks/queries";
 import { taskFiltersSchema } from "@/features/tasks/schemas";
 import { getProfile } from "@/features/profiles/queries";
+import { getTaskLinkOptions } from "@/features/tasks/link-queries";
 import { requireUser } from "@/lib/auth";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -22,7 +23,7 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
     due: stringParam(rawSearchParams.due) || "all",
     sort: stringParam(rawSearchParams.sort) || "due",
   });
-  const tasks = await getTasksForUser(user.id);
+  const [tasks, linkOptions] = await Promise.all([getTasksForUser(user.id), getTaskLinkOptions(user.id)]);
   const filteredTasks = filterAndSortTasks(tasks, filters, profile.timezone);
 
   return (
@@ -34,7 +35,7 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
         <section className="space-y-4">
           <TaskFilterForm filters={filters} />
-          <TaskList tasks={filteredTasks} timeZone={profile.timezone} />
+          <TaskList tasks={filteredTasks} timeZone={profile.timezone} projects={linkOptions.projects} goals={linkOptions.goals} />
         </section>
         <aside className="rounded-md border border-zinc-800 bg-zinc-950 p-4 xl:sticky xl:top-6 xl:self-start">
           <h2 className="mb-4 text-lg font-semibold text-zinc-50">Create task</h2>
@@ -42,6 +43,8 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
             timeZone={profile.timezone}
             action={createTaskAction}
             onSuccessReset
+            projects={linkOptions.projects}
+            goals={linkOptions.goals}
           />
         </aside>
       </div>

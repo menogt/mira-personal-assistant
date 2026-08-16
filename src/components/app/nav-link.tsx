@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   ListTodo,
+  Target,
   Settings,
   StickyNote,
 } from "lucide-react";
@@ -14,6 +15,7 @@ import { cn } from "@/lib/utils";
 const iconMap = {
   dashboard: LayoutDashboard,
   tasks: ListTodo,
+  goals: Target,
   notes: StickyNote,
   settings: Settings,
 } as const;

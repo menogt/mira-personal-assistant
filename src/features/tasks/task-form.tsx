@@ -39,11 +39,15 @@ export function TaskForm({
   timeZone,
   action,
   onSuccessReset = false,
+  projects = [],
+  goals = [],
 }: {
   task?: Task;
   timeZone: string;
   action: (values: TaskFormValues) => Promise<ActionResult>;
   onSuccessReset?: boolean;
+  projects?: Array<{ id: string; name: string }>;
+  goals?: Array<{ id: string; name: string }>;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -58,6 +62,9 @@ export function TaskForm({
       due_date: dateInputValue(task?.due_at ?? null, timeZone),
       due_time: timeInputValue(task?.due_at ?? null, timeZone),
       estimated_minutes: task?.estimated_minutes?.toString() ?? "",
+      recurrence: task?.recurrence ?? "",
+      project_id: task?.project_id ?? "",
+      goal_id: task?.goal_id ?? "",
     }),
     [task, timeZone],
   );
@@ -191,6 +198,12 @@ export function TaskForm({
           <Label htmlFor={`due-time-${task?.id ?? "new"}`}>Due time</Label>
           <Input id={`due-time-${task?.id ?? "new"}`} type="time" {...form.register("due_time")} />
         </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="space-y-2"><Label htmlFor={`recurrence-${task?.id ?? "new"}`}>Recurrence</Label><Input id={`recurrence-${task?.id ?? "new"}`} placeholder="e.g. weekly" {...form.register("recurrence")} /></div>
+        <div className="space-y-2"><Label htmlFor={`project-${task?.id ?? "new"}`}>Project link</Label><select id={`project-${task?.id ?? "new"}`} className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 text-sm text-zinc-200" {...form.register("project_id")}><option value="">None</option>{projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}</select></div>
+        <div className="space-y-2"><Label htmlFor={`goal-${task?.id ?? "new"}`}>Goal link</Label><select id={`goal-${task?.id ?? "new"}`} className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 text-sm text-zinc-200" {...form.register("goal_id")}><option value="">None</option>{goals.map((goal) => <option key={goal.id} value={goal.id}>{goal.name}</option>)}</select></div>
       </div>
 
       {result ? (

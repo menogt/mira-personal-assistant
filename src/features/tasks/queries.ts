@@ -109,3 +109,8 @@ export function filterAndSortTasks(
 export function getIncompleteTasks(tasks: Task[]) {
   return tasks.filter((task) => task.status !== "completed" && task.status !== "cancelled");
 }
+
+export async function getTodayTasks(userId: string, timeZone: string) {
+  const tasks = await getTasksForUser(userId);
+  return filterAndSortTasks(tasks, { q: "", category: "all", priority: "all", status: "todo", due: "today", sort: "due" }, timeZone);
+}

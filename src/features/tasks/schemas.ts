@@ -15,6 +15,9 @@ export const taskFormSchema = z.object({
     .optional()
     .refine((value) => !value || Number.isInteger(Number(value)), "Enter whole minutes.")
     .refine((value) => !value || Number(value) >= 0, "Duration cannot be negative."),
+  recurrence: z.string().max(80).optional(),
+  project_id: z.string().uuid().optional().or(z.literal("")),
+  goal_id: z.string().uuid().optional().or(z.literal("")),
 });
 
 export type TaskFormValues = z.infer<typeof taskFormSchema>;

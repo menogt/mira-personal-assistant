@@ -17,6 +17,16 @@ const navigation: Array<{
     iconName: "dashboard",
   },
   {
+    href: "/tasks",
+    label: "Tasks",
+    iconName: "tasks",
+  },
+  {
+    href: "/goals",
+    label: "Goals",
+    iconName: "goals",
+  },
+  {
     href: "/settings",
     label: "Settings",
     iconName: "settings",
@@ -79,7 +89,7 @@ export function AppShell({
       </div>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 border-t border-zinc-800 bg-zinc-950/95 px-2 py-2 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-zinc-800 bg-zinc-950/95 px-2 py-2 backdrop-blur lg:hidden"
         aria-label="Mobile primary"
       >
         {navigation.map((item) => (

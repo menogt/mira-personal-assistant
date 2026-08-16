@@ -22,6 +22,9 @@ type TaskPayload = {
   status: string;
   due_at: string | null;
   estimated_minutes: number | null;
+  recurrence: string | null;
+  project_id: string | null;
+  goal_id: string | null;
   completed_at: string | null;
 };
 
@@ -48,6 +51,9 @@ async function normalizeTaskInput(values: TaskFormValues) {
     status: parsed.data.status,
     due_at: dueAt,
     estimated_minutes: estimatedMinutes,
+    recurrence: parsed.data.recurrence?.trim() || null,
+    project_id: parsed.data.project_id || null,
+    goal_id: parsed.data.goal_id || null,
     completed_at: parsed.data.status === "completed" ? new Date().toISOString() : null,
   };
 

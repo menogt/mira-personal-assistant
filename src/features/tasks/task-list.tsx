@@ -12,7 +12,7 @@ import type { Task } from "@/types/database";
 import { Badge } from "@/components/ui/badge";
 import { DeleteTaskButton, TaskCompletionButton } from "@/features/tasks/task-actions";
 
-export function TaskList({ tasks, timeZone }: { tasks: Task[]; timeZone: string }) {
+export function TaskList({ tasks, timeZone, projects = [], goals = [] }: { tasks: Task[]; timeZone: string; projects?: Array<{ id: string; name: string }>; goals?: Array<{ id: string; name: string }> }) {
   if (tasks.length === 0) {
     return (
       <div className="rounded-md border border-zinc-800 bg-zinc-950 p-6 text-sm text-zinc-400">
@@ -62,6 +62,8 @@ export function TaskList({ tasks, timeZone }: { tasks: Task[]; timeZone: string 
                 task={task}
                 timeZone={timeZone}
                 action={updateTaskAction.bind(null, task.id)}
+                projects={projects}
+                goals={goals}
               />
             </div>
           </details>
