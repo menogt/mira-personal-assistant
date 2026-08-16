@@ -10,3 +10,7 @@ export function getSupabaseEnv() {
 
   return { supabaseUrl, supabaseAnonKey };
 }
+
+export function getAllowedEmail() {
+  return process.env.MIRA_ALLOWED_EMAIL?.trim().toLowerCase() || null;
+}

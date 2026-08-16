@@ -1,123 +1,77 @@
 # MIRA
 
-MIRA, Menaka's Intelligent Routine Assistant, is a private personal productivity app. Phase 1 establishes the secure data foundation for tasks, notes, daily focus, authentication, and settings. It does not include AI features.
+**MIRA (Menaka’s Intelligent Routine Assistant)** is a private, single-user routine dashboard. This repository contains **Stage 1 only**: the Next.js foundation, Supabase authentication/session handling, a private email allowlist, the Today dashboard shell, and the database foundation for later stages.
 
-## Phase 1 Features
+> Later-stage CRUD screens, AI chat, project workflows, university workflows, and notes workflows are intentionally not presented as complete in this stage.
 
-- Supabase email/password authentication with protected app routes.
-- Responsive navigation for dashboard, tasks, notes, settings, and logout.
-- Today dashboard with timezone-aware greeting, deterministic focus recommendation, progress summary, today's tasks, timed schedule, upcoming tasks, and recent notes.
-- Task CRUD with validation, search, filters, sorting, completion, reopening, and delete confirmation.
-- Notes CRUD with validation, pinning, search, type filter, responsive cards, and delete confirmation.
-- Daily focus selection from an existing task or custom text.
-- Minimal settings for display name, timezone, local theme preference, and logout.
-- Version-controlled Supabase schema migration with constraints, indexes, triggers, profile auto-creation, and RLS policies.
+## Stage 1
+
+The protected app currently includes a calm Today briefing with empty states for the main priority, today’s tasks, today’s university schedule, upcoming deadlines, and recent progress. The shell includes the dashboard and settings surfaces only. There is no public signup route.
+
+The Supabase migrations establish `tasks`, `goals`, `projects`, `project_milestones`, `modules`, `study_sessions`, `notes`, and `daily_checkins`, plus the existing profile support. Row-level security restricts every record to its authenticated owner. Cross-record triggers prevent milestones and study sessions from referencing another owner’s project or module.
 
 ## Stack
 
 - Next.js App Router
 - TypeScript
-- Tailwind CSS
-- shadcn/ui-style local components built on Radix primitives
+- Tailwind CSS with local shadcn/ui-style components
 - Supabase PostgreSQL and Supabase Auth
-- Zod
-- React Hook Form
-- date-fns
+- Zod and React Hook Form where feature forms are introduced
 
-## Local Setup
+## Local setup
 
-1. Install dependencies:
+Install dependencies and copy the environment template:
 
 ```bash
 npm install
-```
-
-2. Copy the environment template:
-
-```bash
 cp .env.example .env.local
 ```
 
-3. Fill in `.env.local`:
+Set the following variables in `.env.local`:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+MIRA_ALLOWED_EMAIL=your-private-login-email@example.com
 ```
 
-Only the anon key belongs in the app environment. Do not add a Supabase service-role key to this project.
+`MIRA_ALLOWED_EMAIL` is the one email permitted to use this deployment. Create that one user in Supabase Auth with the Email provider enabled. Do not add a signup flow and do not commit real environment files or service-role keys.
 
-4. Start the dev server:
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-## Supabase Setup
+Then open `http://localhost:3000`.
 
-1. Create a Supabase project.
-2. Enable Email provider authentication in Supabase Auth.
-3. Create the first private user manually from the Supabase dashboard, or invite the user through Supabase Auth.
-4. Apply the migration in `supabase/migrations/20260616143000_phase_1_foundation.sql`.
+## Supabase schema
 
-Using the Supabase CLI:
+Apply both SQL migrations in `supabase/migrations/` through the Supabase SQL Editor, or link the project with the Supabase CLI and run:
 
 ```bash
 supabase link --project-ref your-project-ref
 supabase db push
 ```
 
-Or paste the SQL migration into the Supabase SQL editor and run it once.
+The first migration creates the profile, task, note, and daily-focus foundation used by the existing session/profile helpers. The Stage 1 migration adds the remaining base tables and owner-only policies.
 
-## Database Types
-
-Manual database types are provided in `src/types/database.ts`. After connecting the Supabase CLI, you can regenerate them with:
+## Validation commands
 
 ```bash
-npx supabase gen types typescript --project-id your-project-ref --schema public > src/types/database.ts
-```
-
-Review regenerated relationship types before committing.
-
-## Commands
-
-```bash
-npm run dev
 npm run lint
 npm run typecheck
 npm run build
-npm run start
 ```
 
-## Vercel Deployment
+## Deployment
 
-1. Create a new Vercel project from this repository.
-2. Add these environment variables in Vercel:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-3. Apply the Supabase migration before using the deployed app.
-4. Deploy with the default Next.js build command:
+Deploy the repository as a Next.js project on Vercel. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `MIRA_ALLOWED_EMAIL` to the deployment environment, apply the Supabase migrations, and deploy with the default build command:
 
 ```bash
 npm run build
 ```
 
-## Security Notes
+## Assumptions
 
-- RLS is enabled for `profiles`, `tasks`, `notes`, and `daily_focus`.
-- Policies restrict profile records with `auth.uid() = id`.
-- Policies restrict task, note, and daily-focus records with `auth.uid() = user_id`.
-- A database trigger prevents assigning another user's task as daily focus.
-- The migration creates profile rows automatically when Supabase Auth users are created.
-- `.env.local` and other real env files are ignored. `.env.example` contains only safe variable names.
-
-## Known Phase 1 Limitations
-
-- No AI assistant, AI API calls, voice, notifications, calendars, GitHub integration, teams, payments, goals, projects tracker, habit tracking, recurring tasks, document uploads, finance tracking, or university module system.
-- The app is designed for a single private user account model, though RLS supports multiple private users.
-- Theme preference is stored locally in the browser, not in Supabase.
-- Manual verification requires a configured Supabase project and an authenticated user.
-
-## Future Phases
-
-Future phases may add AI-assisted planning, goals, projects, university workflows, reminders, calendar integrations, voice, and richer automation. These are intentionally not implemented in Phase 1.
+The Supabase project supplied for this build is the source of truth for authentication and persistence. The private email allowlist is intentionally environment-based rather than hardcoded into Git. Since this is a single-user application, the schema keeps `user_id` for safe ownership boundaries but does not introduce an application-managed users table. The next stage can add the CRUD screens on top of these tables without changing the Stage 1 authentication model.
