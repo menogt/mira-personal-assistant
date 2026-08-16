@@ -1,9 +1,9 @@
+import { cache } from "react";
 import type { User } from "@supabase/supabase-js";
-
 import type { Profile } from "@/types/database";
 import { createClient } from "@/lib/supabase/server";
 
-export async function getProfile(user: User): Promise<Profile> {
+export const getProfile = cache(async function getProfile(user: User): Promise<Profile> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("profiles")
@@ -42,4 +42,4 @@ export async function getProfile(user: User): Promise<Profile> {
   }
 
   return upserted;
-}
+});
