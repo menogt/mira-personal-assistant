@@ -4,7 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { getAllowedEmail } from "@/lib/env";
 
 export async function getCurrentUser() {
-  const supabase = await createClient();
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch (error) {
+    console.error("Supabase is not configured for this deployment", error);
+    return null;
+  }
+
   const {
     data: { user },
     error,
