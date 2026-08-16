@@ -27,7 +27,7 @@ export async function updateSession(request: NextRequest) {
   if (!supabaseUrl || !supabaseAnonKey) {
     if (isProtected) {
       const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/login";
+      redirectUrl.pathname = "/bootstrap";
       redirectUrl.searchParams.set("redirectedFrom", request.nextUrl.pathname);
       return NextResponse.redirect(redirectUrl);
     }

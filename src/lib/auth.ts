@@ -28,7 +28,7 @@ export async function requireUser() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/bootstrap");
   }
 
   return user;
