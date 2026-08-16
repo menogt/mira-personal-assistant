@@ -1,0 +1,7 @@
+import { PageHeader } from "@/components/app/page-header";
+import { requireUser } from "@/lib/auth";
+import { ensureStarterProjects, getProjectsForUser } from "@/features/projects/queries";
+import { ProjectForm } from "@/features/projects/project-form";
+import { ProjectList } from "@/features/projects/project-list";
+import { createProjectAction } from "@/features/projects/actions";
+export default async function ProjectsPage(){const user=await requireUser();await ensureStarterProjects(user.id);const projects=await getProjectsForUser(user.id);return <><PageHeader title="A home for active work." description="Track what is moving, what is blocked, and what should happen next."/><div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_26rem]"><section><ProjectList projects={projects}/></section><aside className="rounded-xl border border-zinc-800 bg-zinc-950 p-5"><h2 className="mb-4 text-lg font-semibold">Create project</h2><ProjectForm action={createProjectAction}/><form action={async()=>{ "use server"; const names=["WanderRoute","Meno Arena","MenoPixels","WanderQuest","Hotel Website (Grand Amalya)"]; for(const name of names){await createProjectAction({name,description:"",status:"active",priority:"medium",progress:"0",next_action:"",blocker:"",github_url:"",live_url:"",notes:"",milestones:[]});}}} className="mt-5 border-t border-zinc-800 pt-5"><p className="mb-3 text-xs text-zinc-500">First launch helper</p><button className="text-sm text-emerald-300 underline">Seed five starter projects</button></form></aside></div></>}

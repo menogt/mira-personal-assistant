@@ -31,6 +31,24 @@ export type Database = {
         Update: { id?: string; user_id?: string; name?: string; description?: string | null; status?: string; priority?: string; progress?: number; next_action?: string | null; blocker?: string | null; github_url?: string | null; live_url?: string | null; notes?: string | null; created_at?: string; updated_at?: string };
         Relationships: [{ foreignKeyName: "projects_user_id_fkey"; columns: ["user_id"]; referencedRelation: "users"; referencedColumns: ["id"] }];
       };
+      project_milestones: {
+        Row: { id: string; project_id: string; user_id: string; title: string; is_complete: boolean; position: number; due_date: string | null; created_at: string; updated_at: string };
+        Insert: { id?: string; project_id: string; user_id: string; title: string; is_complete?: boolean; position?: number; due_date?: string | null; created_at?: string; updated_at?: string };
+        Update: { id?: string; project_id?: string; user_id?: string; title?: string; is_complete?: boolean; position?: number; due_date?: string | null; created_at?: string; updated_at?: string };
+        Relationships: [{ foreignKeyName: "project_milestones_project_id_fkey"; columns: ["project_id"]; referencedRelation: "projects"; referencedColumns: ["id"] }];
+      };
+      modules: {
+        Row: { id: string; user_id: string; name: string; code: string | null; lecturer: string | null; schedule: Json; current_topic: string | null; confidence_level: number | null; notes: string | null; assignment_deadlines: Json; exam_dates: Json; created_at: string; updated_at: string };
+        Insert: { id?: string; user_id: string; name: string; code?: string | null; lecturer?: string | null; schedule?: Json; current_topic?: string | null; confidence_level?: number | null; notes?: string | null; assignment_deadlines?: Json; exam_dates?: Json; created_at?: string; updated_at?: string };
+        Update: { id?: string; user_id?: string; name?: string; code?: string | null; lecturer?: string | null; schedule?: Json; current_topic?: string | null; confidence_level?: number | null; notes?: string | null; assignment_deadlines?: Json; exam_dates?: Json; created_at?: string; updated_at?: string };
+        Relationships: [{ foreignKeyName: "modules_user_id_fkey"; columns: ["user_id"]; referencedRelation: "users"; referencedColumns: ["id"] }];
+      };
+      study_sessions: {
+        Row: { id: string; user_id: string; module_id: string; duration_minutes: number; topic: string | null; session_date: string; notes: string | null; created_at: string };
+        Insert: { id?: string; user_id: string; module_id: string; duration_minutes: number; topic?: string | null; session_date?: string; notes?: string | null; created_at?: string };
+        Update: { id?: string; user_id?: string; module_id?: string; duration_minutes?: number; topic?: string | null; session_date?: string; notes?: string | null; created_at?: string };
+        Relationships: [{ foreignKeyName: "study_sessions_module_id_fkey"; columns: ["module_id"]; referencedRelation: "modules"; referencedColumns: ["id"] }];
+      };
       goals: {
         Row: { id: string; user_id: string; name: string; category: string; reason: string | null; deadline: string | null; progress: number; milestones: Json; status: string; created_at: string; updated_at: string };
         Insert: { id?: string; user_id: string; name: string; category?: string; reason?: string | null; deadline?: string | null; progress?: number; milestones?: Json; status?: string; created_at?: string; updated_at?: string };
@@ -63,5 +81,9 @@ export type Database = {
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Task = Database["public"]["Tables"]["tasks"]["Row"];
 export type Goal = Database["public"]["Tables"]["goals"]["Row"];
+export type Project = Database["public"]["Tables"]["projects"]["Row"];
+export type ProjectMilestone = Database["public"]["Tables"]["project_milestones"]["Row"];
+export type Module = Database["public"]["Tables"]["modules"]["Row"];
+export type StudySession = Database["public"]["Tables"]["study_sessions"]["Row"];
 export type Note = Database["public"]["Tables"]["notes"]["Row"];
 export type DailyFocus = Database["public"]["Tables"]["daily_focus"]["Row"];

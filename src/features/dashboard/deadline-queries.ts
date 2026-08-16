@@ -1,0 +1,4 @@
+import { getProjectsForUser } from "@/features/projects/queries";
+import { getUniversityData, parseDeadlineJson } from "@/features/university/queries";
+import { addDaysToDateKey, todayKey } from "@/lib/dates";
+export async function getUpcomingDeadlines(userId:string,timeZone:string){const[today,projects,university]=await Promise.all([Promise.resolve(todayKey(timeZone)),getProjectsForUser(userId),getUniversityData(userId)]);const end=addDaysToDateKey(today,7);const rows=projects.flatMap(p=>p.milestones.filter(m=>!m.is_complete&&m.due_date&&m.due_date>=today&&m.due_date<=end).map(m=>({title:m.title,date:m.due_date!,source:p.name,kind:"Project milestone"}))).concat(university.modules.flatMap(m=>[...parseDeadlineJson(m.assignment_deadlines,m.name,"Assignment"),...parseDeadlineJson(m.exam_dates,m.name,"Exam")].filter(d=>d.date>=today&&d.date<=end).map(d=>({title:d.title,date:d.date,source:d.module,kind:d.kind}))));return rows.sort((a,b)=>a.date.localeCompare(b.date));}

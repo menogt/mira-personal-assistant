@@ -1,0 +1,6 @@
+import { createClient } from "@/lib/supabase/server";
+import type { Project, ProjectMilestone } from "@/types/database";
+export type ProjectWithMilestones = Project & { milestones: ProjectMilestone[] };
+const STARTER_PROJECTS=["WanderRoute","Meno Arena","MenoPixels","WanderQuest","Hotel Website (Grand Amalya)"];
+export async function ensureStarterProjects(userId:string){const supabase=await createClient();const {data}=await supabase.from("projects").select("name").eq("user_id",userId);const existing=new Set((data??[]).map(p=>p.name));const missing=STARTER_PROJECTS.filter(name=>!existing.has(name));if(missing.length)await supabase.from("projects").insert(missing.map(name=>({user_id:userId,name,status:"active",priority:"medium",progress:0})));}
+export async function getProjectsForUser(userId:string):Promise<ProjectWithMilestones[]>{const supabase=await createClient();const [{data:projects,error:pe},{data:milestones,error:me}]=await Promise.all([supabase.from("projects").select("*").eq("user_id",userId).order("updated_at",{ascending:false}),supabase.from("project_milestones").select("*").eq("user_id",userId).order("position")]);if(pe||me){console.error("Project query failed",pe?.message||me?.message);return [];}return (projects??[]).map(p=>({...p,milestones:(milestones??[]).filter(m=>m.project_id===p.id)}));}

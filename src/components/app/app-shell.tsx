@@ -27,6 +27,16 @@ const navigation: Array<{
     iconName: "goals",
   },
   {
+    href: "/projects",
+    label: "Projects",
+    iconName: "projects",
+  },
+  {
+    href: "/university",
+    label: "University",
+    iconName: "university",
+  },
+  {
     href: "/settings",
     label: "Settings",
     iconName: "settings",
@@ -89,7 +99,7 @@ export function AppShell({
       </div>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-zinc-800 bg-zinc-950/95 px-2 py-2 backdrop-blur lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-6 border-t border-zinc-800 bg-zinc-950/95 px-2 py-2 backdrop-blur lg:hidden"
         aria-label="Mobile primary"
       >
         {navigation.map((item) => (

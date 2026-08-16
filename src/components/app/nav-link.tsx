@@ -8,6 +8,8 @@ import {
   Target,
   Settings,
   StickyNote,
+  FolderKanban,
+  GraduationCap,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -17,6 +19,8 @@ const iconMap = {
   tasks: ListTodo,
   goals: Target,
   notes: StickyNote,
+  projects: FolderKanban,
+  university: GraduationCap,
   settings: Settings,
 } as const;
 
