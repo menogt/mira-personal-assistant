@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import { getAllowedEmail } from "@/lib/env";
 
 export async function getCurrentUser() {
   let supabase;
@@ -21,11 +20,6 @@ export async function getCurrentUser() {
     console.error("Failed to read current user", error);
   }
 
-  const allowedEmail = getAllowedEmail();
-  if (user && allowedEmail && user.email?.toLowerCase() !== allowedEmail) {
-    await supabase.auth.signOut();
-    return null;
-  }
 
   return user;
 }

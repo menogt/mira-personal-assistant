@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 
 import { loginSchema } from "@/features/auth/schemas";
 import { createClient } from "@/lib/supabase/server";
-import { getAllowedEmail } from "@/lib/env";
 
 export type AuthActionState = {
   status: "idle" | "error";
@@ -27,13 +26,6 @@ export async function loginAction(
     };
   }
 
-  const allowedEmail = getAllowedEmail();
-  if (allowedEmail && parsed.data.email.toLowerCase() !== allowedEmail) {
-    return {
-      status: "error",
-      message: "This MIRA instance is private and the email is not allowed.",
-    };
-  }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
