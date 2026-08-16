@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { LogIn } from "lucide-react";
 
@@ -47,6 +48,11 @@ export function LoginForm() {
         <LogIn className="h-4 w-4" aria-hidden="true" />
         {isPending ? "Signing in..." : "Sign in"}
       </Button>
+      <div className="text-center">
+        <Link href="/forgot-password" className="text-sm text-zinc-400 hover:text-zinc-200">
+          Forgot your password?
+        </Link>
+      </div>
     </form>
   );
 }
