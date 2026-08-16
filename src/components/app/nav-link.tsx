@@ -10,6 +10,7 @@ import {
   StickyNote,
   FolderKanban,
   GraduationCap,
+  Sparkles,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ const iconMap = {
   notes: StickyNote,
   projects: FolderKanban,
   university: GraduationCap,
+  assistant: Sparkles,
   settings: Settings,
 } as const;
 
