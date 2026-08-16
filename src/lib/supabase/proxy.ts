@@ -11,6 +11,14 @@ export async function updateSession(request: NextRequest) {
   const isProtected = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route),
   );
+  const isPublicAuthRoute = ["/login", "/forgot-password", "/reset-password", "/auth/callback"].some(
+    (route) => request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`),
+  );
+
+  // Public auth pages must remain renderable even if Supabase is unavailable or misconfigured.
+  if (isPublicAuthRoute) {
+    return response;
+  }
 
   // Keep the public login page renderable if deployment configuration is incomplete.
   // Protected routes still redirect to login until Supabase is configured.
